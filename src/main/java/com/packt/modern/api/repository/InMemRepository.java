@@ -3,6 +3,7 @@ package com.packt.modern.api.repository;
 import com.github.javafaker.Faker;
 import com.packt.jmodern.api.generated.types.Product;
 import com.packt.jmodern.api.generated.types.Tag;
+import org.apache.logging.log4j.util.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.core.publisher.ConnectableFlux;
@@ -12,6 +13,7 @@ import reactor.core.publisher.FluxSink;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
@@ -59,11 +61,20 @@ public class InMemRepository implements Repository {
 
     @Override
     public Product getProduct(String id) {
-        return null;
+        if (Strings.isBlank(id)) {
+            throw new RuntimeException("Invalid Product ID.");
+        }
+        Product product = productEntities.get(id);
+        if (Objects.isNull(product)) {
+            throw new RuntimeException("Product not found.");
+        }
+        return product;
     }
 
     @Override
     public List<Product> getProducts() {
-        return null;
+        return productEntities.entrySet().
+                stream().map(e -> e.getValue()).
+                collect(Collectors.toList());
     }
 }
