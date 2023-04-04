@@ -1,0 +1,32 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.0.5'
+    id 'io.spring.dependency-management' version '1.1.0'
+    id 'com.netflix.dgs.codegen' version '4.6.4'
+}
+
+group = 'com.packt.modern.api'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = JavaVersion.VERSION_17
+
+repositories {
+    mavenCentral()
+}
+def dgsVersion = '3.12.1'
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation platform("com.netflix.graphql.dgs:graphql-dgs-platform-dependencies:${dgsVersion}")
+    implementation 'com.netflix.graphql.dgs:graphql-dgs-spring-boot-starter'
+    implementation 'com.netflix.graphql.dgs:graphql-dgs-extended-scalars'
+    implementation 'com.github.javafaker:javafaker:1.0.2'
+}
+generateJava {
+    generateClient = true
+    packageName = "com.packt.jmodern.api.generated"
+    typeMapping = ["BigDecimal": "java.math.BigDecimal"]
+
+}
+test {
+    useJUnitPlatform()
+}
