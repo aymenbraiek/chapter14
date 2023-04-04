@@ -4,6 +4,7 @@ import com.packt.jmodern.api.generated.types.Product;
 import com.packt.jmodern.api.generated.types.ProductCriteria;
 import com.packt.modern.api.repository.Repository;
 import org.apache.logging.log4j.util.Strings;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+@Service
 public class ProductServiceImpl implements ProductService {
     private final Repository repository;
 
